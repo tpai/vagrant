@@ -33,17 +33,16 @@ if [ ! -e $IS_INSTALLED ];then
     # Fix No User Set Locale For Mongo Client
     sudo locale-gen
 
-    # Node Installation
-    export NVM_DIR="/home/vagrant/.nvm" && (
-        git clone https://github.com/creationix/nvm.git "$NVM_DIR"
-        cd "$NVM_DIR"
-        git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" origin`
-    ) && . "$NVM_DIR/nvm.sh"
 
-    nvm install v4.5.0
+    # Install NVM
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+
+    # Install Node LTS
+    nvm install --lts
     nvm ls
-    npm install -g npm nodemon
-
 fi
 
 sudo service nginx restart
